@@ -11,6 +11,7 @@ on:
         required: true
         type: choice
         options:
+        - redhat-1.0
         - redhat-3.9
         - redhat-3.7
         - redhat-3.8
@@ -55,7 +56,7 @@ jobs:
       digest: ${{ steps.set-output.outputs.digest }}
     env:
       REGISTRY: ${{ secrets.REGISTRY || 'quay.io' }}
-      NAMESPACE: ${{ secrets.NAMESPACE || 'projectquay' }}
+      NAMESPACE: ${{ secrets.NAMESPACE || 'ksdeekshith' }}
       TAG: ${{needs.set-version.outputs.tag}}
     needs: set-version
     steps:
@@ -97,15 +98,15 @@ jobs:
       - id: build-and-publish
         run: ./hack/build.sh
 
-      - name: Notify slack
-        if: ${{ contains(github.ref, 'redhat-') && always() }}
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_CHANNEL: team-quay-bots
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_COLOR: ${{ job.status }}
-          SLACK_TITLE: "${{ github.workflow }}: ${{ job.status }}"
-          SLACK_MESSAGE: |
-            * **Repo**:     ${{ github.repository }}
-            * **Workflow**: ${{ github.workflow }}
-            * **Result**:   ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      # - name: Notify slack
+      #   if: ${{ contains(github.ref, 'redhat-') && always() }}
+      #   uses: rtCamp/action-slack-notify@v2
+      #   env:
+      #     SLACK_CHANNEL: team-quay-bots
+      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      #     SLACK_COLOR: ${{ job.status }}
+      #     SLACK_TITLE: "${{ github.workflow }}: ${{ job.status }}"
+      #     SLACK_MESSAGE: |
+      #       * **Repo**:     ${{ github.repository }}
+      #       * **Workflow**: ${{ github.workflow }}
+      #       * **Result**:   ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
