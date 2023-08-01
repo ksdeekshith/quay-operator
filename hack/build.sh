@@ -28,7 +28,7 @@ set -e
 export OPERATOR_NAME='quay-operator-test'
 export REGISTRY=${REGISTRY:-'quay.io'}
 export NAMESPACE=${NAMESPACE:-'ksdeekshith'}
-export TAG=${TAG:-'1.0-unstable'}
+export TAG=${TAG:-'2.0-unstable'}
 export CSV_PATH=${CSV_PATH:-'bundle/manifests/quay-operator.clusterserviceversion.yaml'}
 export ANNOTATIONS_PATH=${ANNOTATIONS_PATH:-'bundle/metadata/annotations.yaml'}
 
@@ -63,7 +63,7 @@ function digest() {
 docker buildx build --push --platform "linux/amd64,linux/ppc64le,linux/s390x"  -t "${REGISTRY}/${NAMESPACE}/quay-operator:${TAG}" .
 digest "${REGISTRY}/${NAMESPACE}/quay-operator:${TAG}" OPERATOR_DIGEST
 
-digest "${REGISTRY}/${NAMESPACE}/quay:1.46.3-5.4.1" QUAY_DIGEST
+digest "${REGISTRY}/${NAMESPACE}/quay:1.0" QUAY_DIGEST
 digest "${REGISTRY}/projectquay/clair:nightly" CLAIR_DIGEST
 digest "${REGISTRY}/projectquay/quay-builder:3.10-unstable" BUILDER_DIGEST
 digest "${REGISTRY}/projectquay/quay-builder-qemu:3.9.0" BUILDER_QEMU_DIGEST
