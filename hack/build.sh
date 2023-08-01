@@ -60,6 +60,7 @@ function digest() {
 	ret=$(docker inspect --format='{{index .RepoDigests 0}}' "${IMAGE}")
 }
 
+
 docker buildx build --push --platform "linux/amd64,linux/ppc64le,linux/s390x"  -t "${REGISTRY}/${NAMESPACE}/quay-operator:${TAG}" .
 digest "${REGISTRY}/${NAMESPACE}/quay-operator:${TAG}" OPERATOR_DIGEST
 
